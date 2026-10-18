@@ -1,0 +1,24 @@
+{
+	"name": "pi-web-mini",
+	"version": "0.1.0",
+	"description": "Pi extension: minimal web_search (Exa) and dual-mode web_fetch (built-in plain text or Exa markdown)",
+	"keywords": ["pi-package"],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kapojko/pi-web-mini.git"
+	},
+	"peerDependencies": {
+		"@earendil-works/pi-ai": "*",
+		"@earendil-works/pi-coding-agent": "*"
+	},
+	"devDependencies": {
+		"@earendil-works/pi-ai": ">=0.87.1",
+		"@earendil-works/pi-coding-agent": ">=0.87.1",
+		"typescript": "*",
+		"@types/node": "*"
+	},
+	"scripts": {
+		"check": "tsc -p tsconfig.check.json"
+	}
+}
