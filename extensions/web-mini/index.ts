@@ -145,6 +145,23 @@ const NAMED_ENTITIES: Record<string, string> = {
 	laquo: "«", raquo: "»", ldquo: "“", rdquo: "”", lsquo: "‘", rsquo: "’",
 };
 
+/** Model-facing whitespace compaction: trim every line, drop whitespace-only
+ *  lines (block tags were replaced by " ", leaving "\n \n" runs the blank-line
+ *  collapse can't see), and collapse blank-line runs to a single blank line so
+ *  paragraph separation survives. */
+export function compactWhitespace(text: string): string {
+	const out: string[] = [];
+	for (const raw of text.split("\n")) {
+		const line = raw.replace(/[ \t]+/g, " ").trim();
+		if (line) {
+			out.push(line);
+		} else if (out.length && out[out.length - 1] !== "") {
+			out.push("");
+		}
+	}
+	return out.join("\n").trim();
+}
+
 function decodeEntities(text: string): string {
 	return text.replace(/&(#[xX][0-9a-fA-F]+|#[0-9]+|[a-zA-Z][a-zA-Z0-9]*);/g, (entity) => {
 		const body = entity.slice(1, -1);
@@ -169,8 +186,7 @@ export function htmlToText(html: string): string {
 		.replace(/<\/(p|div|h[1-6]|li|tr|blockquote|pre|section|article|header|footer|nav|details|summary|dl|dd|dt|figcaption)>/gi, "\n")
 		.replace(/<br\s*\/?>/gi, "\n");
 	text = text.replace(/<(?:[^>"']|"[^"]*"|'[^']*')*>/g, " ");
-	text = decodeEntities(text);
-	return text.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+	return compactWhitespace(decodeEntities(text));
 }
 
 // ── HTTP helpers ────────────────────────────────────────────────────────

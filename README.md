@@ -19,7 +19,7 @@ web_fetch   dual mode: builtin (plain text) | exa (markdown)
 
 | mode | source | output |
 |---|---|---|
-| `builtin` (default) | direct fetch | plain text — script/style/comments stripped, block tags → newlines, entities decoded. Links lost. |
+| `builtin` (default) | direct fetch | plain text — script/style/comments stripped, block tags → newlines, entities decoded, whitespace-compacted (no whitespace-only lines, blank runs collapsed to one). Links lost. |
 | `exa` | Exa `/contents` | Exa-cleaned text — keeps headings and code blocks; inline links are **not** guaranteed (Exa's extraction decides). `livecrawl: fallback`. |
 
 ## API key
